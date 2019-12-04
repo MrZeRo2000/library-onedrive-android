@@ -9,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "0.0.1"
+        versionName "0.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -29,7 +29,7 @@ dependencies {
 
     // ** one drive configuration **
     // Include the sdk as a dependency
-    implementation('com.onedrive.sdk:onedrive-sdk-android:+')
+    api('com.onedrive.sdk:onedrive-sdk-android:+')
     // Include the gson dependency
     implementation 'com.google.code.gson:gson:2.8.5'
     // Include supported authentication methods for your application
@@ -63,7 +63,7 @@ ext {
     artifact = 'library'
 
     libraryDescription = 'Roman Pulov OneDrive library for Android'
-    libraryVersion = '0.0.1'
+    libraryVersion = '0.0.3'
 
     developerId = 'romanpulov'
     developerName = 'Roman Pulov'
