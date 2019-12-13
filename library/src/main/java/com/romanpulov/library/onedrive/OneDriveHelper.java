@@ -28,6 +28,8 @@ public class OneDriveHelper {
     public static final String ROOT_FULL_PATH = "/drive/root:";
     public static final String ROOT_PATH = "root:";
 
+    private final String mClientId;
+
     public interface OnOneDriveActionListener {
         void onActionCompleted(int action, boolean result, String message);
     }
@@ -65,16 +67,16 @@ public class OneDriveHelper {
 
     private static OneDriveHelper instance;
 
-    public static OneDriveHelper getInstance() {
+    public static OneDriveHelper getInstance(String clientId) {
         if (instance == null) {
-            instance = new OneDriveHelper();
+            instance = new OneDriveHelper(clientId);
         }
 
         return instance;
     }
 
-    private OneDriveHelper() {
-
+    private OneDriveHelper(String clientId) {
+        mClientId = clientId;
     }
 
     private final AtomicReference<IOneDriveClient> mClient = new AtomicReference<>();
@@ -198,7 +200,7 @@ public class OneDriveHelper {
         final MSAAuthenticator msaAuthenticator = new MSAAuthenticator() {
             @Override
             public String getClientId() {
-                return "8ed347b1-d21c-4f8d-bdc4-6e53e17f120d";
+                return mClientId;
             }
 
             @Override
