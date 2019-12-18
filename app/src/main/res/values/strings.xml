@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">OneDrive Test</string>
+    <string name="onedrive_client_id">application client id!</string>
+</resources>

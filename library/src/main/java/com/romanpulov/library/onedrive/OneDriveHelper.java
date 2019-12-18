@@ -1,7 +1,8 @@
 package com.romanpulov.library.onedrive;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.onedrive.sdk.authentication.MSAAuthenticator;
 import com.onedrive.sdk.concurrency.ICallback;
@@ -22,13 +23,18 @@ import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class OneDriveHelper {
+
+    private String mClientId;
+
+    public String getClientId() {
+        return mClientId;
+    }
+
     public static final int ONEDRIVE_ACTION_LOGIN = 0;
     public static final int ONEDRIVE_ACTION_LOGOUT = 1;
 
     public static final String ROOT_FULL_PATH = "/drive/root:";
     public static final String ROOT_PATH = "root:";
-
-    private final String mClientId;
 
     public interface OnOneDriveActionListener {
         void onActionCompleted(int action, boolean result, String message);
@@ -67,16 +73,16 @@ public class OneDriveHelper {
 
     private static OneDriveHelper instance;
 
-    public static OneDriveHelper getInstance(String clientId) {
+    public static OneDriveHelper getInstance() {
         if (instance == null) {
-            instance = new OneDriveHelper(clientId);
+            instance = new OneDriveHelper();
         }
 
         return instance;
     }
 
-    private OneDriveHelper(String clientId) {
-        mClientId = clientId;
+    private OneDriveHelper() {
+
     }
 
     private final AtomicReference<IOneDriveClient> mClient = new AtomicReference<>();
@@ -235,6 +241,12 @@ public class OneDriveHelper {
         return expansionOption;
     }
 
+    public void checkClientId(Activity activity){
+        if (mClientId == null) {
+            mClientId = activity.getString(R.string.onedrive_client_id);
+        }
+    }
+
     private void internalCreateClient(final Activity activity) {
         new com.onedrive.sdk.extensions.OneDriveClient
                 .Builder()
@@ -243,10 +255,12 @@ public class OneDriveHelper {
     }
 
     public void createClient(Activity activity) {
+        checkClientId(activity);
         internalCreateClient(activity);
     }
 
     public void logout(Activity activity) {
+        checkClientId(activity);
         new com.onedrive.sdk.extensions.OneDriveClient
                 .Builder()
                 .fromConfig(createConfig())
@@ -254,6 +268,7 @@ public class OneDriveHelper {
     }
 
     public void listItems(Activity activity, String path){
+        checkClientId(activity);
         if (mClient.get() == null) {
             new com.onedrive.sdk.extensions.OneDriveClient
                     .Builder()

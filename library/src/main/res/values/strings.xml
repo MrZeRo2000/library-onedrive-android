@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">com.romanpulov.library.onedrive</string>
+    <string name="onedrive_client_id">test client id</string>
 </resources>
