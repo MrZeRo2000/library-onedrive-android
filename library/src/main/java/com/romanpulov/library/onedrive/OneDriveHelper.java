@@ -15,6 +15,8 @@ import com.onedrive.sdk.extensions.IOneDriveClient;
 import com.onedrive.sdk.extensions.Item;
 import com.onedrive.sdk.logger.LoggerLevel;
 
+import com.romanpulov.jutilscore.io.FileUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -302,6 +304,22 @@ public class OneDriveHelper {
                 .getContent()
                 .buildRequest()
                 .get();
+    }
+
+    public void putStream(InputStream inputStream, String path, String fileName) throws IOException {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            FileUtils.copyStream(inputStream, outputStream);
+
+            mClient.get()
+                    .getDrive()
+                    .getItems("root")
+                    .getItemWithPath(path)
+                    .getChildren()
+                    .byId(fileName)
+                    .getContent()
+                    .buildRequest()
+                    .put(outputStream.toByteArray(), progressCallback);
+        }
     }
 
     public void putFile(File file, String path) throws IOException {
